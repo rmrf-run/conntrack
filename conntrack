@@ -1,0 +1,18 @@
+#!/bin/ksh
+num=`cat /proc/sys/net/ipv4/netfilter/ip_conntrack_count`
+
+if [ "$num" -gt "50000" ]
+then
+  msg="CRITICAL - IP conntrack count $num"
+  rc=2
+elif [ "$num" -gt "16500" -a "$num" -lt "49999" ]
+then
+  msg="WARNING - IP conntrack count $num"
+  rc=1
+else 
+  msg="All good - IP conntrack count $num"
+  rc=0
+fi
+
+echo $msg
+return $rc
